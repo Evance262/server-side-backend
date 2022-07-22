@@ -30,7 +30,7 @@ def get_timezone():
     '''defaulting the timezone to UTC'''
     user = getattr(g, 'user', None)
     if user is not None:
-        return user.timezone.best_match(['UTC'])
+        return user.timezone
 
 
 if __name__ == "__main__":
