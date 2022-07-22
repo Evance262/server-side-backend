@@ -7,10 +7,12 @@ app = Flask(__name__)
 
 babel = Babel(app)
 
+
 @app.route('/')
 def index():
     '''1-index.html'''
     return render_template("1-index.html")
+
 
 class Config(object):
     '''instantiating the babel object'''
