@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 '''
 flask application
@@ -32,13 +31,24 @@ users = {
 @app.route('/')
 def index():
     '''0-index.html.'''
-    return render_template("5-index.html")
+    return render_template("7-index.html")
 
 
 @babel.localeselector
 def get_locale():
     '''determine the best match with our supported languages.'''
     locale = request.args.get("locale")
+    if locale:
+        return locale
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
+
+    log_as = request.args.get('login_as')
+    if log_as:
+        locale = users[int(log_as)]['locale']
+        if locale:
+            return locale
+
+    locale = request.headers.get('locale')
     if locale:
         return locale
     return request.accept_languages.best_match(app.config['LANGUAGES'])
@@ -57,6 +67,23 @@ def get_user():
 def before_request():
     '''set a user as a global on flask.g.user. '''
     g.user = get_user()
+
+
+@babel.timezoneselector
+def get_timezone():
+    ''' timezone '''
+    time = request.args.get('timezone')
+    if time in pytz.all_timezones:
+        return time
+    else:
+        raise pytz.exceptions.UnknownTimeZoneError
+    user_id = request.args.get('login_as')
+    time = users[int(user_id)]['timezone']
+    if time in pytz.all_timezones:
+        return time
+    else:
+        raise pytz.exceptions.UnknownTimeZoneError
+    return app.config['BABEL_DEFAULT_TIMEZONE']
 
 
 if __name__ == '__main__':
