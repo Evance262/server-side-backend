@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 '''flask application '''
 from flask import Flask, render_template
+
 app = Flask(__name__) @app.route('/')
+
+
 def index():
   '''0-index.html.'''
   return render_template("0-index.html")
