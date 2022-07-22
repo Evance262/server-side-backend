@@ -16,6 +16,7 @@ app.config.from_object(Config)
 Babel.default_locale = "en"
 Babel.default_timezone = "UTC"
 
+
 @app.route('/')
 def index():
     '''1-index.html'''
